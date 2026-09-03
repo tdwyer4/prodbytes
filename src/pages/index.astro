@@ -1,17 +1,158 @@
 ---
+import manifest from "../data/manifest.json";
+import { CDN_BASE_URL } from "../lib/config";
+import type { GraphicEntry } from "../lib/types";
 
+const graphics = manifest as GraphicEntry[];
 ---
 
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Prodbytes</title>
-	</head>
-	<body>
-		<h1>Prodbytes</h1>
-	</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Free Graphics — prodbytes.com</title>
+    <meta
+      name="description"
+      content="Free abstract backgrounds, textures, and hero images to download."
+    />
+  </head>
+  <body>
+    <header class="site-header">
+      <h1>Free Graphics</h1>
+      <p>Abstract backgrounds, textures, and hero images — free to download.</p>
+    </header>
+
+    <!--
+      Filter bar: purely client-side, driven by data-* attributes on each
+      card below. No backend/search index needed at this archive size.
+    -->
+    <div class="filters">
+      <select id="filter-category">
+        <option value="">All categories</option>
+      </select>
+      <select id="filter-orientation">
+        <option value="">All orientations</option>
+        <option value="landscape">Landscape</option>
+        <option value="portrait">Portrait</option>
+        <option value="square">Square</option>
+      </select>
+    </div>
+
+    <main class="grid" id="graphic-grid">
+      {
+        graphics.map((graphic) => (
+          <a
+            class="card"
+            href={`/graphics/${graphic.slug}/`}
+            data-category={graphic.category}
+            data-orientation={graphic.orientation}
+          >
+            <img
+              src={`${CDN_BASE_URL}/${graphic.thumbPath}`}
+              alt={graphic.title || graphic.originalFilename}
+              loading="lazy"
+              width="400"
+            />
+            <div class="card-caption">
+              <span class="card-title">{graphic.title || graphic.originalFilename}</span>
+              <span class="card-meta">{graphic.category}</span>
+            </div>
+          </a>
+        ))
+      }
+    </main>
+
+    <script define:vars={{ graphics }}>
+      // Populate the category dropdown from whatever categories actually
+      // exist in the manifest, so it never goes stale as you add more.
+      const categorySelect = document.getElementById("filter-category");
+      const orientationSelect = document.getElementById("filter-orientation");
+      const cards = Array.from(document.querySelectorAll(".card"));
+
+      const categories = [...new Set(graphics.map((g) => g.category))].sort();
+      for (const category of categories) {
+        const option = document.createElement("option");
+        option.value = category;
+        option.textContent = category;
+        categorySelect.appendChild(option);
+      }
+
+      function applyFilters() {
+        const category = categorySelect.value;
+        const orientation = orientationSelect.value;
+        for (const card of cards) {
+          const matchesCategory = !category || card.dataset.category === category;
+          const matchesOrientation = !orientation || card.dataset.orientation === orientation;
+          card.style.display = matchesCategory && matchesOrientation ? "" : "none";
+        }
+      }
+
+      categorySelect.addEventListener("change", applyFilters);
+      orientationSelect.addEventListener("change", applyFilters);
+    </script>
+
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        margin: 0;
+        color: #1a1a1a;
+      }
+      .site-header {
+        padding: 2rem 1.5rem 1rem;
+        text-align: center;
+      }
+      .site-header h1 {
+        margin: 0 0 0.25rem;
+      }
+      .filters {
+        display: flex;
+        gap: 0.75rem;
+        justify-content: center;
+        padding: 0 1.5rem 1.5rem;
+      }
+      .filters select {
+        padding: 0.5rem 0.75rem;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 1.25rem;
+        padding: 0 1.5rem 3rem;
+      }
+      .card {
+        display: block;
+        text-decoration: none;
+        color: inherit;
+        border-radius: 10px;
+        overflow: hidden;
+        border: 1px solid #eee;
+        transition: transform 0.15s ease;
+      }
+      .card:hover {
+        transform: translateY(-2px);
+      }
+      .card img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        display: block;
+      }
+      .card-caption {
+        padding: 0.75rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.15rem;
+      }
+      .card-title {
+        font-weight: 600;
+        font-size: 0.95rem;
+      }
+      .card-meta {
+        font-size: 0.8rem;
+        color: #777;
+      }
+    </style>
+  </body>
 </html>

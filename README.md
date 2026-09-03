@@ -1,43 +1,39 @@
-# Astro Starter Kit: Minimal
+# Catalog Pages for prodbytes.com
 
-```sh
-npm create astro@latest -- --template minimal
-```
+Drop these files into your existing Astro project (matching the same
+folder paths) to get a working, filterable catalog grid plus an individual
+download page per graphic — both driven entirely by manifest.json.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Files
 
-## 🚀 Project Structure
+- `src/pages/index.astro` — the main grid page with category/orientation filters
+- `src/pages/graphics/[slug].astro` — one static page generated per graphic, with a download button
+- `src/lib/config.ts` — your CDN base URL, defined once
+- `src/lib/types.ts` — shared TypeScript type for a manifest entry
+- `src/data/manifest.example.json` — sample data matching the exact shape
+  your processing script outputs (rename to `manifest.json` and replace
+  with your real one)
 
-Inside of your Astro project, you'll see the following folders and files:
+## Before this works on your real site
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+1. Copy your actual `manifest.json` (from running `process-images.js`)
+   into `src/data/manifest.json`.
+2. Confirm `CDN_BASE_URL` in `src/lib/config.ts` matches your R2 custom
+   domain exactly.
+3. Run `npm run build` — this was tested and confirmed working against
+   sample data with this exact structure before being handed to you.
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## A build quirk I ran into (and already fixed for you)
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+Astro's build-time code splitting for `getStaticPaths()` can silently
+drop top-level variables that are only referenced inside it. The fix
+(already applied in `[slug].astro`) is defining the typed manifest array
+*inside* `getStaticPaths()` itself rather than above it. If you ever see
+a `"graphics is not defined"` error while editing this file, that's the
+cause — keep the manifest casting inside the function.
 
-Any static assets, like images, can be placed in the `public/` directory.
+## Filtering
 
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+The category dropdown on the grid page populates itself automatically
+from whatever categories exist in your manifest — no need to hardcode
+categories as you add more graphics.

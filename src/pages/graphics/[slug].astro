@@ -1,0 +1,145 @@
+---
+import manifest from "../../data/manifest.json";
+import { CDN_BASE_URL } from "../../lib/config";
+import type { GraphicEntry } from "../../lib/types";
+
+// Astro needs to know every slug up front to generate a static page for each.
+// NOTE: `graphics` is defined inside this function (not at module scope) —
+// Astro's build-time code-splitting for getStaticPaths can otherwise drop
+// top-level bindings that are only referenced here.
+export function getStaticPaths() {
+  const graphics = manifest as GraphicEntry[];
+  return graphics.map((graphic) => ({
+    params: { slug: graphic.slug },
+    props: { graphic },
+  }));
+}
+
+const { graphic } = Astro.props as { graphic: GraphicEntry };
+const displayTitle = graphic.title || graphic.originalFilename;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{displayTitle} — Free Download — prodbytes.com</title>
+    <meta
+      name="description"
+      content={`Download ${displayTitle} for free — ${graphic.category} graphic, ${graphic.width}x${graphic.height}.`}
+    />
+    <!-- Clean OG image tag so this shares well on Pinterest/social -->
+    <meta property="og:image" content={`${CDN_BASE_URL}/${graphic.previewPath}`} />
+    <meta property="og:title" content={displayTitle} />
+  </head>
+  <body>
+    <a class="back-link" href="/">&larr; Back to all graphics</a>
+
+    <main class="detail">
+      <div class="preview">
+        <img
+          src={`${CDN_BASE_URL}/${graphic.previewPath}`}
+          alt={displayTitle}
+          width={graphic.width}
+          height={graphic.height}
+        />
+      </div>
+
+      <div class="info">
+        <h1>{displayTitle}</h1>
+
+        <dl class="meta-list">
+          <dt>Category</dt>
+          <dd>{graphic.category}</dd>
+
+          <dt>Dimensions</dt>
+          <dd>{graphic.width} × {graphic.height}px</dd>
+
+          <dt>Orientation</dt>
+          <dd>{graphic.orientation}</dd>
+
+          {graphic.style && (
+            <>
+              <dt>Style</dt>
+              <dd>{graphic.style}</dd>
+            </>
+          )}
+
+          <dt>License</dt>
+          <dd>{graphic.license || "See site terms"}</dd>
+        </dl>
+
+        <a
+          class="download-button"
+          href={`${CDN_BASE_URL}/${graphic.fullPath}`}
+          download
+        >
+          Download Full Resolution
+        </a>
+      </div>
+    </main>
+
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        margin: 0;
+        color: #1a1a1a;
+      }
+      .back-link {
+        display: inline-block;
+        padding: 1.25rem 1.5rem 0;
+        color: #444;
+        text-decoration: none;
+        font-size: 0.9rem;
+      }
+      .detail {
+        display: grid;
+        grid-template-columns: 1.4fr 1fr;
+        gap: 2rem;
+        padding: 1.5rem;
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+      .preview img {
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+        display: block;
+      }
+      .info h1 {
+        margin-top: 0;
+      }
+      .meta-list {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 0.4rem 1rem;
+        margin: 1.5rem 0;
+      }
+      .meta-list dt {
+        color: #777;
+        font-size: 0.85rem;
+      }
+      .meta-list dd {
+        margin: 0;
+        font-weight: 500;
+      }
+      .download-button {
+        display: inline-block;
+        background: #1a1a1a;
+        color: white;
+        padding: 0.85rem 1.5rem;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+      }
+      .download-button:hover {
+        background: #333;
+      }
+      @media (max-width: 720px) {
+        .detail {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </body>
+</html>
