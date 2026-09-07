@@ -1,0 +1,234 @@
+@import "global.css";
+
+.site-header {
+  margin: auto;
+  max-width: 1400px;
+  padding: 32px;
+  text-align: left;
+}
+
+.site-header h1 {
+  margin: 0 0 0.5rem;
+  font-size: 2.25rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.site-header p {
+  margin: 0;
+  color: #666;
+  font-size: 1.05rem;
+}
+
+.filters {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+  padding: 1rem 1.5rem 2rem;
+  max-width: 1400px;
+  margin: auto;
+}
+
+.filters select {
+  padding: 0.6rem 1rem;
+  border-radius: 0px;
+  border: 0px solid var(--foreground-color);
+  border-bottom: 1px solid var(--foreground-color);
+  background-color: var(--background-color);
+  font-family: inherit;
+  font-size: 0.9rem;
+  color: var(--foreground-color);
+  outline: none;
+  cursor: pointer;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.25rem;
+  padding: 0 1.5rem 4rem;
+  max-width: 1400px;
+  margin: auto;
+}
+
+/* Unsplash-Style Card Overlays */
+.card {
+  position: relative;
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: #e4e4e7;
+  aspect-ratio: 4 / 3;
+}
+
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: filter 0.2s ease;
+}
+
+.card:hover img {
+  filter: brightness(0.90);
+}
+
+.card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 10%, rgba(0, 0, 0, 1) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1rem;
+  opacity: 0;
+  transition: opacity 0.25s ease-in-out;
+}
+
+.card:hover .card-overlay {
+  opacity: 1;
+}
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.card-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.card-title {
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.925rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.card-meta {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.75rem;
+  text-transform: capitalize;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-download-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #111111;
+  border-radius: 4px;
+  flex-shrink: 0;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.card-download-btn:hover {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.card-download-btn svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* Email-gate modal for direct grid downloads */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1.5rem;
+}
+
+/* This is the fix: without it, display:flex above overrides the
+   hidden attribute's default display:none, since they have equal
+   CSS specificity and this rule comes first. */
+.modal-overlay[hidden] {
+  display: none;
+}
+
+.modal-box {
+  position: relative;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 2rem;
+  max-width: 380px;
+  width: 100%;
+}
+
+.modal-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.9rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  color: #71717a;
+}
+
+.modal-close:hover {
+  color: #1a1a1a;
+}
+
+.modal-box h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.modal-note {
+  margin: 0 0 1.25rem;
+  color: #71717a;
+  font-size: 0.875rem;
+}
+
+#modal-gate-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+#modal-gate-form input {
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: 1px solid #d4d4d8;
+  font-size: 0.95rem;
+  font-family: inherit;
+}
+
+#modal-gate-form button {
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  background: #1a1a1a;
+  color: #ffffff;
+  padding: 0.85rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+#modal-gate-form button:hover {
+  background: #333333;
+}

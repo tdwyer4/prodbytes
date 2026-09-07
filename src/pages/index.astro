@@ -1,158 +1,173 @@
 ---
+import Layout from "../layouts/Layout.astro";
 import manifest from "../data/manifest.json";
 import { CDN_BASE_URL } from "../lib/config";
 import type { GraphicEntry } from "../lib/types";
+import "../styles/index.css";
 
 const graphics = manifest as GraphicEntry[];
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Free Graphics — prodbytes.com</title>
-    <meta
-      name="description"
-      content="Free abstract backgrounds, textures, and hero images to download."
-    />
-  </head>
-  <body>
-    <header class="site-header">
-      <h1>Free Graphics</h1>
-      <p>Abstract backgrounds, textures, and hero images — free to download.</p>
-    </header>
+<Layout title="Free Graphics — prodbytes.com">
+  <header class="site-header">
+    <h1></h1>
+    <p>Hey! Thanks for stopping by. These are some designs and assets that never saw the light of day, so I figured why not throw them on the internet for you all to use instead of rotting away in a pile of hard drives. I hope that these can be of use to you in some way, shape, or form. If you do end up using something, I'd love to see it! Hit me up here and share your work! All the best, Tim</p>
+  </header>
 
-    <!--
-      Filter bar: purely client-side, driven by data-* attributes on each
-      card below. No backend/search index needed at this archive size.
-    -->
-    <div class="filters">
-      <select id="filter-category">
-        <option value="">All categories</option>
-      </select>
-      <select id="filter-orientation">
-        <option value="">All orientations</option>
-        <option value="landscape">Landscape</option>
-        <option value="portrait">Portrait</option>
-        <option value="square">Square</option>
-      </select>
-    </div>
+  <div class="filters">
+    <select id="filter-category">
+      <option value="">All categories</option>
+    </select>
+    <select id="filter-orientation">
+      <option value="">All orientations</option>
+      <option value="landscape">Landscape</option>
+      <option value="portrait">Portrait</option>
+      <option value="square">Square</option>
+    </select>
+  </div>
 
-    <main class="grid" id="graphic-grid">
-      {
-        graphics.map((graphic) => (
-          <a
-            class="card"
-            href={`/graphics/${graphic.slug}/`}
-            data-category={graphic.category}
-            data-orientation={graphic.orientation}
-          >
-            <img
-              src={`${CDN_BASE_URL}/${graphic.thumbPath}`}
-              alt={graphic.title || graphic.originalFilename}
-              loading="lazy"
-              width="400"
-            />
-            <div class="card-caption">
-              <span class="card-title">{graphic.title || graphic.originalFilename}</span>
-              <span class="card-meta">{graphic.category}</span>
+  <main class="grid" id="graphic-grid">
+    {
+      graphics.map((graphic) => (
+        <a
+          class="card"
+          href={`/graphics/${graphic.slug}/`}
+          data-category={graphic.category}
+          data-orientation={graphic.orientation}
+          data-slug={graphic.slug}
+        >
+          <img
+            src={`${CDN_BASE_URL}/${graphic.thumbPath}`}
+            alt={graphic.title || graphic.originalFilename}
+            loading="lazy"
+            width="400"
+          />
+          <div class="card-overlay">
+            <div class="card-footer">
+              <div class="card-info">
+                <span class="card-title">{graphic.title || graphic.originalFilename}</span>
+                <span class="card-meta">{graphic.category}</span>
+              </div>
+              <div class="card-download-btn" title="Download" data-download-slug={graphic.slug}>
+                <svg class="downloadIcon-nNqzCe" width="24" height="24" viewBox="0 0 24 24" version="1.1" aria-hidden="false" style="flex-shrink: 0;"><desc lang="en-US">Arrow pointing down</desc><path d="M10.9911 15.4012V4H13v11.4012l4.7138-4.3142 1.2865 1.5386L12.0004 19 5 12.6256l1.3675-1.5386z"></path></svg>
+              </div>
             </div>
-          </a>
-        ))
+          </div>
+        </a>
+      ))
+    }
+  </main>
+
+  <!-- Email-gate modal for direct downloads from the grid. Only shown when
+       a visitor without the "verified" cookie clicks a card's download
+       button — otherwise the download fires immediately, no modal at all. -->
+  <div id="gate-modal" class="modal-overlay" hidden>
+    <div class="modal-box">
+      <button type="button" id="modal-close" class="modal-close" aria-label="Close">&times;</button>
+      <h2>Get Free Download</h2>
+      <p class="modal-note">Free, no spam — just enter your email once to unlock every graphic on the site.</p>
+      <form id="modal-gate-form">
+        <input type="email" id="modal-gate-email" placeholder="you@example.com" required />
+        <button type="submit" class="download-button">Get Free Download</button>
+      </form>
+    </div>
+  </div>
+
+  <script define:vars={{ graphics }}>
+    const categorySelect = document.getElementById("filter-category");
+    const orientationSelect = document.getElementById("filter-orientation");
+    const cards = Array.from(document.querySelectorAll(".card"));
+
+    const categories = [...new Set(graphics.map((g) => g.category))].sort();
+    for (const category of categories) {
+      const option = document.createElement("option");
+      option.value = category;
+      option.textContent = category;
+      categorySelect.appendChild(option);
+    }
+
+    function applyFilters() {
+      const category = categorySelect.value;
+      const orientation = orientationSelect.value;
+      for (const card of cards) {
+        const matchesCategory = !category || card.dataset.category === category;
+        const matchesOrientation = !orientation || card.dataset.orientation === orientation;
+        card.style.display = matchesCategory && matchesOrientation ? "" : "none";
       }
-    </main>
+    }
 
-    <script define:vars={{ graphics }}>
-      // Populate the category dropdown from whatever categories actually
-      // exist in the manifest, so it never goes stale as you add more.
-      const categorySelect = document.getElementById("filter-category");
-      const orientationSelect = document.getElementById("filter-orientation");
-      const cards = Array.from(document.querySelectorAll(".card"));
+    categorySelect.addEventListener("change", applyFilters);
+    orientationSelect.addEventListener("change", applyFilters);
 
-      const categories = [...new Set(graphics.map((g) => g.category))].sort();
-      for (const category of categories) {
-        const option = document.createElement("option");
-        option.value = category;
-        option.textContent = category;
-        categorySelect.appendChild(option);
+    // --- Direct download from the grid + email-gate modal ---
+
+    function hasVerifiedCookie() {
+      return document.cookie.split(";").some((c) => c.trim().startsWith("verified="));
+    }
+
+    // Triggers the actual file download without navigating away from the
+    // homepage — a temporary link click works for a same-tab download
+    // because the API response includes Content-Disposition: attachment.
+    function triggerDownload(slug) {
+      const link = document.createElement("a");
+      link.href = `/api/download/${slug}`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    }
+
+    const modal = document.getElementById("gate-modal");
+    const modalCloseBtn = document.getElementById("modal-close");
+    const modalForm = document.getElementById("modal-gate-form");
+    let pendingSlug = null;
+
+    function openModal(slug) {
+      pendingSlug = slug;
+      modal.hidden = false;
+    }
+
+    function closeModal() {
+      modal.hidden = true;
+      pendingSlug = null;
+    }
+
+    modalCloseBtn.addEventListener("click", closeModal);
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) closeModal();
+    });
+
+    modalForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const emailInput = document.getElementById("modal-gate-email");
+      const response = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: emailInput.value }),
+      });
+      if (response.ok) {
+        const slugToDownload = pendingSlug;
+        closeModal();
+        if (slugToDownload) triggerDownload(slugToDownload);
+      } else {
+        const { error } = await response.json();
+        alert(error || "Something went wrong — please try again.");
       }
+    });
 
-      function applyFilters() {
-        const category = categorySelect.value;
-        const orientation = orientationSelect.value;
-        for (const card of cards) {
-          const matchesCategory = !category || card.dataset.category === category;
-          const matchesOrientation = !orientation || card.dataset.orientation === orientation;
-          card.style.display = matchesCategory && matchesOrientation ? "" : "none";
+    // Intercept clicks on each card's download button specifically —
+    // stopPropagation prevents the click from also triggering the card's
+    // own link navigation to the [slug] page.
+    document.querySelectorAll(".card-download-btn").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const slug = btn.dataset.downloadSlug;
+        if (hasVerifiedCookie()) {
+          triggerDownload(slug);
+        } else {
+          openModal(slug);
         }
-      }
-
-      categorySelect.addEventListener("change", applyFilters);
-      orientationSelect.addEventListener("change", applyFilters);
-    </script>
-
-    <style>
-      body {
-        font-family: system-ui, sans-serif;
-        margin: 0;
-        color: #1a1a1a;
-      }
-      .site-header {
-        padding: 2rem 1.5rem 1rem;
-        text-align: center;
-      }
-      .site-header h1 {
-        margin: 0 0 0.25rem;
-      }
-      .filters {
-        display: flex;
-        gap: 0.75rem;
-        justify-content: center;
-        padding: 0 1.5rem 1.5rem;
-      }
-      .filters select {
-        padding: 0.5rem 0.75rem;
-        border-radius: 6px;
-        border: 1px solid #ccc;
-      }
-      .grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-        gap: 1.25rem;
-        padding: 0 1.5rem 3rem;
-      }
-      .card {
-        display: block;
-        text-decoration: none;
-        color: inherit;
-        border-radius: 10px;
-        overflow: hidden;
-        border: 1px solid #eee;
-        transition: transform 0.15s ease;
-      }
-      .card:hover {
-        transform: translateY(-2px);
-      }
-      .card img {
-        width: 100%;
-        height: 180px;
-        object-fit: cover;
-        display: block;
-      }
-      .card-caption {
-        padding: 0.75rem;
-        display: flex;
-        flex-direction: column;
-        gap: 0.15rem;
-      }
-      .card-title {
-        font-weight: 600;
-        font-size: 0.95rem;
-      }
-      .card-meta {
-        font-size: 0.8rem;
-        color: #777;
-      }
-    </style>
-  </body>
-</html>
+      });
+    });
+  </script>
+</Layout>

@@ -1,12 +1,10 @@
 ---
+import Layout from "../../layouts/Layout.astro";
 import manifest from "../../data/manifest.json";
 import { CDN_BASE_URL } from "../../lib/config";
 import type { GraphicEntry } from "../../lib/types";
+import "../../styles/slug.css";
 
-// Astro needs to know every slug up front to generate a static page for each.
-// NOTE: `graphics` is defined inside this function (not at module scope) —
-// Astro's build-time code-splitting for getStaticPaths can otherwise drop
-// top-level bindings that are only referenced here.
 export function getStaticPaths() {
   const graphics = manifest as GraphicEntry[];
   return graphics.map((graphic) => ({
@@ -17,129 +15,235 @@ export function getStaticPaths() {
 
 const { graphic } = Astro.props as { graphic: GraphicEntry };
 const displayTitle = graphic.title || graphic.originalFilename;
+
+// Similar Graphics: gather a larger pool of same-category candidates
+// (capped at 12 so the page doesn't balloon for huge categories) — the
+// client-side script shuffles this pool and shows 4 on every page load,
+// so it's genuinely different per visit, not just fixed at build time.
+const allGraphics = manifest as GraphicEntry[];
+const similarCandidates = allGraphics
+  .filter((g) => g.slug !== graphic.slug && g.category === graphic.category)
+  .slice(0, 12);
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{displayTitle} — Free Download — prodbytes.com</title>
-    <meta
-      name="description"
-      content={`Download ${displayTitle} for free — ${graphic.category} graphic, ${graphic.width}x${graphic.height}.`}
-    />
-    <!-- Clean OG image tag so this shares well on Pinterest/social -->
-    <meta property="og:image" content={`${CDN_BASE_URL}/${graphic.previewPath}`} />
-    <meta property="og:title" content={displayTitle} />
-  </head>
-  <body>
+<Layout 
+  title={`${displayTitle} — Free Download — prodbytes.com`}
+  description={`Download ${displayTitle} for free — ${graphic.category} graphic, ${graphic.width}x${graphic.height}.`}
+  ogImage={`${CDN_BASE_URL}/${graphic.previewPath}`}
+>
+  <div class="back-link-container">
     <a class="back-link" href="/">&larr; Back to all graphics</a>
+  </div>
 
-    <main class="detail">
-      <div class="preview">
-        <img
-          src={`${CDN_BASE_URL}/${graphic.previewPath}`}
-          alt={displayTitle}
-          width={graphic.width}
-          height={graphic.height}
-        />
-      </div>
+  <main class="detail">
+    <div class="preview">
+      <img
+        src={`${CDN_BASE_URL}/${graphic.previewPath}`}
+        alt={displayTitle}
+        width={graphic.width}
+        height={graphic.height}
+      />
+    </div>
 
-      <div class="info">
-        <h1>{displayTitle}</h1>
+    <div class="info">
+      <h1>{displayTitle}</h1>
 
-        <dl class="meta-list">
-          <dt>Category</dt>
-          <dd>{graphic.category}</dd>
+      <dl class="meta-list">
+        <dt>Category</dt>
+        <dd>{graphic.category}</dd>
 
-          <dt>Dimensions</dt>
-          <dd>{graphic.width} × {graphic.height}px</dd>
+        <dt>Dimensions</dt>
+        <dd>{graphic.width} × {graphic.height}px</dd>
 
-          <dt>Orientation</dt>
-          <dd>{graphic.orientation}</dd>
+        <dt>Orientation</dt>
+        <dd>{graphic.orientation}</dd>
 
-          {graphic.style && (
-            <>
-              <dt>Style</dt>
-              <dd>{graphic.style}</dd>
-            </>
-          )}
+        {graphic.style && (
+          <>
+            <dt>Style</dt>
+            <dd>{graphic.style}</dd>
+          </>
+        )}
 
-          <dt>License</dt>
-          <dd>{graphic.license || "See site terms"}</dd>
-        </dl>
+        <dt>Free to use under the Prodbytes License</dt>
+        <dd>{graphic.license || "See site terms"}</dd>
+      </dl>
 
-        <a
-          class="download-button"
-          href={`${CDN_BASE_URL}/${graphic.fullPath}`}
-          download
-        >
-          Download Full Resolution
-        </a>
-      </div>
-    </main>
+      <div id="download-area" data-slug={graphic.slug}></div>
+    </div>
+  </main>
 
-    <style>
-      body {
-        font-family: system-ui, sans-serif;
-        margin: 0;
-        color: #1a1a1a;
-      }
-      .back-link {
-        display: inline-block;
-        padding: 1.25rem 1.5rem 0;
-        color: #444;
-        text-decoration: none;
-        font-size: 0.9rem;
-      }
-      .detail {
-        display: grid;
-        grid-template-columns: 1.4fr 1fr;
-        gap: 2rem;
-        padding: 1.5rem;
-        max-width: 1100px;
-        margin: 0 auto;
-      }
-      .preview img {
-        width: 100%;
-        height: auto;
-        border-radius: 10px;
-        display: block;
-      }
-      .info h1 {
-        margin-top: 0;
-      }
-      .meta-list {
-        display: grid;
-        grid-template-columns: auto 1fr;
-        gap: 0.4rem 1rem;
-        margin: 1.5rem 0;
-      }
-      .meta-list dt {
-        color: #777;
-        font-size: 0.85rem;
-      }
-      .meta-list dd {
-        margin: 0;
-        font-weight: 500;
-      }
-      .download-button {
-        display: inline-block;
-        background: #1a1a1a;
-        color: white;
-        padding: 0.85rem 1.5rem;
-        border-radius: 8px;
-        text-decoration: none;
-        font-weight: 600;
-      }
-      .download-button:hover {
-        background: #333;
-      }
-      @media (max-width: 720px) {
-        .detail {
-          grid-template-columns: 1fr;
+  {
+    similarCandidates.length > 0 && (
+      <section class="similar-section">
+        <h2>Explore more graphics</h2>
+        <div class="similar-grid" id="similar-grid">
+          {similarCandidates.map((similar) => (
+            <a
+              class="card"
+              href={`/graphics/${similar.slug}/`}
+              data-slug={similar.slug}
+            >
+              <img
+                src={`${CDN_BASE_URL}/${similar.thumbPath}`}
+                alt={similar.title || similar.originalFilename}
+                loading="lazy"
+                width="300"
+              />
+              <div class="card-overlay">
+                <div class="card-footer">
+                  <div class="card-info">
+                    <span class="card-title">{similar.title || similar.originalFilename}</span>
+                    <span class="card-meta">{similar.category}</span>
+                  </div>
+                  <div class="card-download-btn" title="Download" data-download-slug={similar.slug}>
+                    <svg width="24" height="24" viewBox="0 0 24 24" version="1.1" aria-hidden="false" style="flex-shrink: 0;"><desc lang="en-US">Arrow pointing down</desc><path d="M10.9911 15.4012V4H13v11.4012l4.7138-4.3142 1.2865 1.5386L12.0004 19 5 12.6256l1.3675-1.5386z"></path></svg>
+                  </div>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+    )
+  }
+
+  <!-- Same email-gate modal pattern as the homepage, so the Similar
+       Graphics cards behave identically to the main grid. -->
+  <div id="gate-modal" class="modal-overlay" hidden>
+    <div class="modal-box">
+      <button type="button" id="modal-close" class="modal-close" aria-label="Close">&times;</button>
+      <h2>Get Free Download</h2>
+      <p class="modal-note">Free, no spam — just enter your email once to unlock every graphic on the site.</p>
+      <form id="modal-gate-form">
+        <input type="email" id="modal-gate-email" placeholder="you@example.com" required />
+        <button type="submit" class="download-button">Get Free Download</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const area = document.getElementById("download-area");
+    const slug = area?.dataset.slug;
+
+    function hasVerifiedCookie(): boolean {
+      return document.cookie.split(";").some((c) => c.trim().startsWith("verified="));
+    }
+
+    function renderDownloadButton() {
+      if (!area || !slug) return;
+      area.innerHTML = `<a class="download-button" href="/api/download/${slug}">Download Full Resolution</a>`;
+    }
+
+    function renderEmailForm() {
+      if (!area) return;
+      area.innerHTML = `
+        <form id="gate-form">
+          <input type="email" id="gate-email" placeholder="you@example.com" required />
+          <button type="submit" class="download-button">Get Free Download</button>
+          <p class="gate-note">Free, no spam — just enter your email once.</p>
+        </form>
+      `;
+      const form = document.getElementById("gate-form");
+      form?.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const emailInput = document.getElementById("gate-email") as HTMLInputElement;
+        const response = await fetch("/api/subscribe", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: emailInput.value }),
+        });
+        if (response.ok) {
+          renderDownloadButton();
+        } else {
+          const { error } = await response.json();
+          alert(error || "Something went wrong — please try again.");
         }
+      });
+    }
+
+    if (hasVerifiedCookie()) {
+      renderDownloadButton();
+    } else {
+      renderEmailForm();
+    }
+
+    // --- Similar Graphics: client-side shuffle + direct download/modal,
+    // same pattern as the homepage grid. Runs fresh on every page load,
+    // so the 4 shown are genuinely randomized per visit. ---
+
+    function triggerDownload(downloadSlug: string) {
+      const link = document.createElement("a");
+      link.href = `/api/download/${downloadSlug}`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    }
+
+    const similarGrid = document.getElementById("similar-grid");
+    if (similarGrid) {
+      const cards = Array.from(similarGrid.children);
+      // Fisher-Yates shuffle
+      for (let i = cards.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [cards[i], cards[j]] = [cards[j], cards[i]];
       }
-    </style>
-  </body>
-</html>
+      cards.forEach((card, index) => {
+        similarGrid.appendChild(card); // reorders into the shuffled sequence
+        (card as HTMLElement).style.display = index <4 ? "" : "none";
+      });
+    }
+
+    const modal = document.getElementById("gate-modal") as HTMLElement;
+    const modalCloseBtn = document.getElementById("modal-close");
+    const modalForm = document.getElementById("modal-gate-form");
+    let pendingSlug: string | null = null;
+
+    function openModal(downloadSlug: string) {
+      pendingSlug = downloadSlug;
+      modal.hidden = false;
+    }
+
+    function closeModal() {
+      modal.hidden = true;
+      pendingSlug = null;
+    }
+
+    modalCloseBtn?.addEventListener("click", closeModal);
+    modal?.addEventListener("click", (e) => {
+      if (e.target === modal) closeModal();
+    });
+
+    modalForm?.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const emailInput = document.getElementById("modal-gate-email") as HTMLInputElement;
+      const response = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: emailInput.value }),
+      });
+      if (response.ok) {
+        const slugToDownload = pendingSlug;
+        closeModal();
+        if (slugToDownload) triggerDownload(slugToDownload);
+      } else {
+        const { error } = await response.json();
+        alert(error || "Something went wrong — please try again.");
+      }
+    });
+
+    document.querySelectorAll(".similar-grid .card-download-btn").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const downloadSlug = (btn as HTMLElement).dataset.downloadSlug;
+        if (!downloadSlug) return;
+        if (hasVerifiedCookie()) {
+          triggerDownload(downloadSlug);
+        } else {
+          openModal(downloadSlug);
+        }
+      });
+    });
+  </script>
+</Layout>

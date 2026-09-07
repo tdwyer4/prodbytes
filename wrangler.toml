@@ -1,0 +1,19 @@
+name = "prodbytes"
+compatibility_date = "2026-09-01"
+main = "./worker/index.ts"
+
+[assets]
+directory = "./dist"
+binding = "ASSETS"
+# Without this, Workers serves static files BEFORE your code runs at all —
+# meaning /api/* and /admin would never reach your handlers.
+run_worker_first = ["/api/*", "/admin", "/admin/*"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "prodbytes_graphics_db"
+database_id = "7c2e28b2-703d-4049-9bb3-a67005993684"
+
+[[r2_buckets]]
+binding = "PRIVATE_BUCKET"
+bucket_name = "graphics-private"
