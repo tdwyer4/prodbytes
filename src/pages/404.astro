@@ -1,0 +1,63 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Page Not Found — prodbytes.com">
+  <main class="not-found">
+    <span class="not-found-code">404</span>
+    <h1>Looks like this one didn't make the cut.</h1>
+    <p>
+      The page you're looking for doesn't exist — maybe it moved, maybe it
+      never did, or maybe I just haven't finished it yet. Either way, there's
+      a whole archive of free graphics waiting for you back home.
+    </p>
+    <a class="back-home-button" href="/">Super Rad Graphics</a>
+  </main>
+
+  <style>
+    .not-found {
+      max-width: 560px;
+      margin: 0 auto;
+      padding: 6rem 1.5rem 5rem;
+      text-align: center;
+    }
+
+    .not-found-code {
+      display: block;
+      font-size: 5rem;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      color: var(--primary-color, #ffb454);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .not-found h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 0 0 0.75rem;
+      letter-spacing: -0.02em;
+    }
+
+    .not-found p {
+      color: #a1a1aa;
+      line-height: 1.6;
+      margin: 0 0 2rem;
+    }
+
+    .back-home-button {
+      display: inline-block;
+      background: var(--primary-color, #ffb454);
+      color: #1a1a1a;
+      padding: 0.85rem 1.75rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .back-home-button:hover {
+      opacity: 0.9;
+    }
+  </style>
+</Layout>

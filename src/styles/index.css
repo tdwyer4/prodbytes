@@ -1,9 +1,61 @@
 @import "global.css";
 
+/* Hero Banner */
+.hero {
+  position: relative;
+  min-height: 260px;
+  height: auto;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+}
+
+.hero-overlay {
+  position: relative;
+  width: 100%;
+  padding: 2.5rem 1.5rem;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.9));
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-content {
+  width: 100%;
+  max-width: 1400px;
+  margin: auto;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.hero-title {
+  margin: 0;
+  color: #ffffff;
+  font-size: clamp(2rem, 6vw, 4.5rem);
+  font-weight: 300;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  width: 60%;
+}
+
+.hero-title-highlight {
+  color: var(--primary-color);
+}
+
+.hero-eyebrow {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  font-weight: 500;
+  width: 60%;
+}
+
 .site-header {
   margin: auto;
   max-width: 1400px;
-  padding: 32px;
+  padding: 24px;
   text-align: left;
 }
 
@@ -16,24 +68,29 @@
 
 .site-header p {
   margin: 0;
-  color: #666;
+  color: #d3d3d3;
   font-size: 1.05rem;
 }
 
+.site-header-emphasis {
+  color: var(--primary-color);
+  font-weight: 700;
+}
+
+/* Filters Section */
 .filters {
   display: flex;
   gap: 0.75rem;
-  justify-content: flex-end;
-  padding: 1rem 1.5rem 2rem;
+  justify-content: flex-start;
+  padding: 1.5rem 1.5rem 1.5rem;
   max-width: 1400px;
   margin: auto;
 }
 
 .filters select {
   padding: 0.6rem 1rem;
-  border-radius: 0px;
-  border: 0px solid var(--foreground-color);
-  border-bottom: 1px solid var(--foreground-color);
+  border-radius: 4px;
+  border: 1px solid #323232;
   background-color: var(--background-color);
   font-family: inherit;
   font-size: 0.9rem;
@@ -42,6 +99,7 @@
   cursor: pointer;
 }
 
+/* Responsive Grid */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -51,15 +109,15 @@
   margin: auto;
 }
 
-/* Unsplash-Style Card Overlays */
+/* Card Overlays */
 .card {
   position: relative;
   display: block;
   text-decoration: none;
   color: inherit;
-  border-radius: 6px;
+  border-radius: 8px;
   overflow: hidden;
-  background-color: #e4e4e7;
+  background-color: #27272a;
   aspect-ratio: 4 / 3;
 }
 
@@ -78,7 +136,7 @@
 .card-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 10%, rgba(0, 0, 0, 1) 100%);
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 20%, rgba(0, 0, 0, 0.85) 100%);
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -128,11 +186,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   background-color: rgba(255, 255, 255, 0.9);
   color: #111111;
-  border-radius: 4px;
+  border-radius: 6px;
   flex-shrink: 0;
   transition: background-color 0.15s ease, color 0.15s ease;
 }
@@ -143,25 +201,23 @@
 }
 
 .card-download-btn svg {
-  width: 15px;
-  height: 15px;
+  width: 18px;
+  height: 18px;
 }
 
-/* Email-gate modal for direct grid downloads */
+/* Email Modal */
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
-  padding: 1.5rem;
+  padding: 1rem;
 }
 
-/* This is the fix: without it, display:flex above overrides the
-   hidden attribute's default display:none, since they have equal
-   CSS specificity and this rule comes first. */
 .modal-overlay[hidden] {
   display: none;
 }
@@ -171,8 +227,9 @@
   background: #ffffff;
   border-radius: 12px;
   padding: 2rem;
-  max-width: 380px;
+  max-width: 400px;
   width: 100%;
+  color: #111111;
 }
 
 .modal-close {
@@ -231,4 +288,39 @@
 
 #modal-gate-form button:hover {
   background: #333333;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 868px) {
+  .hero-title,
+  .hero-eyebrow {
+    width: 100%;
+  }
+
+  .hero-overlay {
+    padding: 2rem 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .filters {
+    flex-direction: column;
+    padding: 1rem 1rem 1.5rem;
+  }
+
+  .filters select {
+    width: 100%;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 0 1rem 3rem;
+  }
+
+  /* Make overlays visible on touch screens where hover doesn't exist */
+  .card-overlay {
+    opacity: 1;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0.85) 100%);
+  }
 }

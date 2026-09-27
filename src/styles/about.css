@@ -1,0 +1,133 @@
+@import "global.css";
+
+/* Main Top Hero Layout (Text + Singular Photo) */
+.about-hero-section {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 3.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 3.5rem 1.5rem;
+  align-items: flex-start;
+}
+
+.about-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.hero-title {
+  margin: 0;
+  color: #ffffff;
+  font-size: clamp(1.75rem, 8vw, 4.5rem);
+  font-weight: 300;
+  letter-spacing: -0.03em;
+  line-height: 90%;
+  width: 100%;
+}
+
+.hero-title-highlight {
+  color: var(--primary-color);
+}
+
+.site-header {
+  width: 100%;
+  padding: 0;
+  text-align: left;
+}
+
+.site-header p {
+  margin: 0;
+  color: #d3d3d3;
+  font-size: 1.05rem;
+  line-height: 1.75;
+}
+
+.site-header-emphasis {
+  color: var(--primary-color);
+  font-weight: 700;
+}
+
+/* Singular Featured Image Style */
+.featured-photo {
+  width: 100%;
+  height: 100%;
+}
+
+.featured-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 12px;
+  display: block;
+}
+
+/* Bottom "Behind The Scenes" Section */
+.behind-the-scenes {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 5rem;
+}
+
+.section-title {
+  color: #ffffff;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0 0 2rem;
+}
+
+.bts-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.bts-card {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.bts-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.bts-card img:hover {
+  transform: translateY(-3px);
+  filter: brightness(1.08);
+}
+
+.bts-card figcaption {
+  color: #d3d3d3;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* Mobile & Tablet Responsiveness */
+@media (max-width: 968px) {
+  .about-hero-section {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    padding: 2.5rem 1.5rem;
+  }
+
+  .featured-photo img {
+    height: 350px;
+  }
+
+  .bts-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .bts-card img {
+    height: 220px;
+  }
+}

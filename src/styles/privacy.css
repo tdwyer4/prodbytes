@@ -1,0 +1,32 @@
+@import "global.css";
+
+body {
+        font-family: system-ui, sans-serif;
+        margin: 0;
+        color: var(--foreground-color);
+      }
+      .back-link {
+        display: inline-block;
+        padding: 1.25rem 1.5rem 0;
+        color: var(--primary-color);
+        text-decoration: none;
+        font-size: 0.9rem;
+      }
+      .content {
+        max-width: 640px;
+        margin: 0 auto;
+        padding: 1.5rem 1.5rem 4rem;
+        line-height: 1.6;
+      }
+      .updated {
+        color: var(--primary-color);
+        font-size: 0.85rem;
+        margin-top: -0.5rem;
+      }
+      h2 {
+        margin-top: 2rem;
+        font-size: 1.15rem;
+      }
+      a {
+        color: var(--primary-color);
+      }

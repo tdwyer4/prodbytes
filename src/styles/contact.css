@@ -1,0 +1,161 @@
+@import "global.css";
+
+/* Hero — swappable featured graphic */
+.hero {
+  position: relative;
+  height: 10vh;
+  min-height: 260px;
+  display: flex;
+  align-items: flex-end;
+}
+
+.hero-overlay {
+  position: relative;
+  width: 100%;
+  padding: 1.75rem;
+  /* background: linear-gradient(180deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.9)); */
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.hero-content {
+  width: 100%;
+  max-width: 1400px;
+  margin: auto;
+  text-align: left;
+  padding: 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.hero-title {
+  margin: 0;
+  color: #ffffff;
+  font-size: clamp(1.75rem, 8vw, 5rem);
+  font-weight: 300;
+  letter-spacing: -0.03em;
+  line-height: 85%;
+  width: 50%;
+}
+
+.hero-title-highlight {
+  color: var(--primary-color);
+}
+
+.hero-eyebrow {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0em;
+  width: 50%;
+}
+
+/* Two-Column About Section Layout */
+.about-section {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 3.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 3.5rem 1.5rem;
+  align-items: flex-start;
+}
+
+.site-header {
+  width: 100%;
+  padding: 0;
+  text-align: left;
+}
+
+.site-header h1 {
+  margin: 0 0 0.5rem;
+  font-size: 2.25rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+}
+
+.site-header p {
+  margin: 0;
+  color: #d3d3d3;
+  font-size: 1.05rem;
+  line-height: 1.75;
+}
+
+.site-header-emphasis {
+  color: var(--primary-color);
+  font-weight: 700;
+}
+
+/* Right-Side Vertical Image Stack */
+.about-photos {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.about-photos img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 12px;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.about-photos img:hover {
+  transform: translateY(-3px);
+  filter: brightness(1.08);
+}
+
+/* Contact section */
+.contact-section {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1.5rem 4rem;
+  text-align: left;
+}
+
+.contact-section h2 {
+  color: #ffffff;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 0.75rem;
+  letter-spacing: -0.02em;
+}
+
+.contact-section p {
+  color: #d3d3d3;
+  font-size: 1.05rem;
+  line-height: 1.75;
+  margin: 0;
+}
+
+.contact-email {
+  color: var(--primary-color);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.contact-email:hover {
+  text-decoration: underline;
+}
+
+/* Responsive Breakdown */
+@media (max-width: 868px) {
+  .hero-title,
+  .hero-eyebrow {
+    width: 100%;
+  }
+
+  .about-section {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    padding: 2.5rem 1.5rem;
+  }
+
+  .about-photos img {
+    height: 200px;
+  }
+}

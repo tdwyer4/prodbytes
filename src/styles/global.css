@@ -1,7 +1,7 @@
 :root {
   --background-color: #151516;
   --foreground-color: #e5e7e7;
-  --primary-color: #ffd969;    /* Vivid blue */
+  --primary-color: #ffd969;    /* Vivid yellow */
   --secondary-color: #2ecc71;  /* Fresh green */
   --dark-text: #2c3e50;        /* Dark slate */
   --bg-light: #f8f9fa;         /* Off-white */
@@ -18,74 +18,292 @@ body {
   color: var(--foreground-color);
   background: var(--background-color);
   -webkit-font-smoothing: antialiased;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
+.site-main {
+  flex: 1;
+}
+
+a {
+  color: var(--primary-color);
+}
+
+/* Sticky Global Header */
 .global-header {
+  display: flex;
+  color: #f7f8f8;
+  background-color: var(--background-color);
+  border-bottom: 1px solid #323232;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+}
+
+.header-container {
+  max-width: 1400px;
+  width: 100%;
+  margin: auto;
+  padding: 1rem 1.5rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand-link {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: #f7f8f8;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1.2rem;
+  letter-spacing: -0.02em;
+}
+
+.brand-name {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.brand-logo {
+  width: 26px;
+  height: 26px;
+}
+
+/* Desktop Inline Navigation */
+.desktop-menu {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.desktop-menu .nav-link {
+  text-decoration: none;
+  color: var(--foreground-color);
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: color 0.3s ease;
+}
+
+.desktop-menu .nav-link:hover {
+  color: var(--primary-color);
+}
+
+/* Mobile Hamburger Toggle (Hidden on Desktop) */
+.menu-toggle {
+  display: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  flex-direction: column;
+  gap: 5px;
+  z-index: 101;
+}
+
+.hamburger-bar {
+  width: 22px;
+  height: 2px;
+  background-color: var(--foreground-color);
+  border-radius: 2px;
+  transition: transform 0.3s ease, background-color 0.2s ease;
+}
+
+.menu-toggle:hover .hamburger-bar {
+  background-color: var(--primary-color);
+}
+
+/* Popout Menu Backdrop */
+.menu-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 199;
+}
+
+.menu-backdrop.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Popout Slide-In Drawer */
+.popout-menu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 300px;
+  max-width: 80vw;
+  height: 100vh;
+  background-color: #1a1a1c;
+  border-left: 1px solid #323232;
+  z-index: 200;
+  padding: 2rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.popout-menu.is-open {
+  transform: translateX(0);
+}
+
+.popout-header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 2rem;
+}
+
+.menu-close {
+  background: transparent;
+  border: none;
+  color: var(--foreground-color);
+  font-size: 2.25rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.menu-close:hover {
+  color: var(--primary-color);
+}
+
+.popout-links {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.popout-link {
+  color: var(--foreground-color);
+  text-decoration: none;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.popout-link:hover {
+  color: var(--primary-color);
+  transform: translateX(4px);
+}
+
+/* Footer Styling */
+.global-footer {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 2rem 1.5rem;
+  color: #f7f8f8;
+  background-color: var(--background-color);
+  border-top: 1px solid #323232;
+  width: 100%;
+  max-width: 1400px;
+  margin: auto;
+}
+
+.footer-left {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-author {
+  font-size: 12px;
+  color: #a1a1aa;
+}
+
+.footer-right {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer-links {
+  display: flex;
+  gap: 12px;
+  flex-direction: column;
+  text-align: right;
+}
+
+.footer-links-item a {
+  text-decoration: none;
+  color: var(--foreground-color);
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.footer-links-item a:hover {
+  color: var(--primary-color);
+}
+
+.legal {
+  font-size: 12px;
+  color: #a1a1aa;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.legal a {
+  color: #a1a1aa;
+}
+
+/* Responsive Media Queries */
+@media (max-width: 768px) {
+  .header-container {
+    padding: 0.85rem 1rem;
+  }
+
+  /* Hide Desktop Links on Mobile */
+  .desktop-menu {
+    display: none;
+  }
+
+  /* Show Hamburger Button on Mobile */
+  .menu-toggle {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.75rem 1.5rem;
-    color: #f7f8f8;
-    background-color: var(--background-color);
-    border-bottom: 1px solid #323232;
-    position: sticky;
-    top: 0;
-    z-index: 100;
   }
 
-  .header-brand {
-    display: flex;
-    align-items: center;
+  .global-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2rem;
+    padding: 2rem 1rem;
   }
 
-  .brand-link {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    color: #f7f8f8;
-    text-decoration: none;
-    font-weight: 700;
-    font-size: 1.2rem;
-    letter-spacing: -0.02em;
+  .footer-right {
+    width: 100%;
   }
 
-  .brand-logo {
-    width: 26px;
-    height: 26px;
+  .footer-links {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
+    text-align: left;
   }
 
-  .header-ad-space {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
+  .legal {
+    justify-content: flex-start;
   }
-
-  .ad-placeholder {
-    width: 468px;
-    height: 60px;
-    background: #f4f4f5;
-    border: 1px dashed #d4d4d8;
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-  }
-
-  .ad-label {
-    font-size: 0.75rem;
-    color: #a1a1aa;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
-  @media (max-width: 768px) {
-    .global-header {
-      flex-direction: column;
-      gap: 0.75rem;
-    }
-    .ad-placeholder {
-      width: 100%;
-      height: 50px;
-    }
-  }
+}

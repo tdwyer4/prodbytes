@@ -1,18 +1,30 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import manifest from "../data/manifest.json";
-import { CDN_BASE_URL } from "../lib/config";
+import { CDN_BASE_URL, HERO_IMAGE_URL } from "../lib/config";
 import type { GraphicEntry } from "../lib/types";
 import "../styles/index.css";
 
 const graphics = manifest as GraphicEntry[];
 ---
 
-<Layout title="Free Graphics — prodbytes.com">
-  <header class="site-header">
-    <h1></h1>
-    <p>Hey! Thanks for stopping by. These are some designs and assets that never saw the light of day, so I figured why not throw them on the internet for you all to use instead of rotting away in a pile of hard drives. I hope that these can be of use to you in some way, shape, or form. If you do end up using something, I'd love to see it! Hit me up here and share your work! All the best, Tim</p>
-  </header>
+<Layout title="Prodbytes - Free assets for your next project.">
+  <section
+    class="hero"
+    style={`background-image: url(${HERO_IMAGE_URL});`}
+  >
+    <div class="hero-overlay">
+		<div class="hero-content">
+			<h2 class="hero-title"><span class="hero-title-highlight">Free assets</span> for your next project.</h2>
+			<span class="hero-eyebrow"><span class="">Creative, AI-free designs to use on your website, socials, articles, wallpaper...<br/><span class="site-header-emphasis">really anywhere you can think of.</span></span> </span>
+	  </div>
+    </div>
+  </section>
+
+  <!-- <header class="site-header">
+    <h1>Hey! Thanks for stopping by. </h1>
+    <p>These are some designs and assets that never saw the light of day, so I figured why not throw them on the internet for you all to use instead of rotting away in a pile of hard drives. I'll be updating the site weekly with new designs (and eventually motion graphics), so make sure to check back often. <span class="site-header-emphasis">Everything is ai-free and created by me in Blender, Figma, or Adobe.</span> I hope that these can be of use to you in some way, shape, or form. If you do end up using something, I'd love to see it! Hit me up here and share your work! All the best, Tim</p>
+  </header> -->
 
   <div class="filters">
     <select id="filter-category">
@@ -64,11 +76,11 @@ const graphics = manifest as GraphicEntry[];
   <div id="gate-modal" class="modal-overlay" hidden>
     <div class="modal-box">
       <button type="button" id="modal-close" class="modal-close" aria-label="Close">&times;</button>
-      <h2>Get Free Download</h2>
-      <p class="modal-note">Free, no spam — just enter your email once to unlock every graphic on the site.</p>
+      <h2>Access everything.</h2>
+      <p class="modal-note">Just enter your email once to unlock everything on the site. And no spam, I promise :)</p>
       <form id="modal-gate-form">
         <input type="email" id="modal-gate-email" placeholder="you@example.com" required />
-        <button type="submit" class="download-button">Get Free Download</button>
+        <button type="submit" class="download-button">Download</button>
       </form>
     </div>
   </div>

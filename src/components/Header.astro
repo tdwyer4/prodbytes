@@ -1,20 +1,86 @@
 ---
 import "../styles/global.css";
+import HeaderAdUnit from "./HeaderAdUnit.astro"; 
 ---
 
 <header class="global-header">
-  <div class="header-brand">
-    <a href="/" class="brand-link">
-      <svg class="brand-logo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
-      </svg>
-      <span class="brand-name">Prodbytes</span>
-    </a>
+  <div class="header-container">
+    <div class="header-brand">
+      <a href="/" class="brand-link">
+        <img
+          src="/Prodbytes_WEB.png"
+          alt="Prodbytes Logo"
+          class="brand-logo"
+          width="26"
+          height="26"
+        />
+        <span class="brand-name">Prodbytes</span>
+      </a>
+    </div>
+
+    <!-- Desktop Inline Links -->
+    <nav class="desktop-menu" aria-label="Desktop Navigation">
+      <a href="/about" class="nav-link">About</a>
+      <a href="/contact" class="nav-link">Contact</a>
+    </nav>
+
+    <!-- Mobile Hamburger Toggle Button -->
+    <button
+      id="menu-toggle"
+      class="menu-toggle"
+      aria-label="Toggle navigation menu"
+      aria-expanded="false"
+    >
+      <span class="hamburger-bar"></span>
+      <span class="hamburger-bar"></span>
+      <span class="hamburger-bar"></span>
+    </button>
   </div>
 
-  <div class="header-ad-space">
-    <div class="ad-placeholder">
-      <span class="ad-label">Advertisement</span>
-      </div>
-  </div>
+  <!-- Dimmed Overlay Backdrop (Mobile Only) -->
+  <div id="menu-backdrop" class="menu-backdrop"></div>
+
+  <!-- Popout Drawer Menu (Mobile Only) -->
+  <aside id="popout-menu" class="popout-menu" aria-label="Mobile Navigation">
+    <div class="popout-header">
+      <button id="menu-close" class="menu-close" aria-label="Close menu">&times;</button>
+    </div>
+    <nav class="popout-links">
+      <a href="/" class="popout-link">Home</a>
+      <a href="/about" class="popout-link">About</a>
+      <a href="/contact" class="popout-link">Contact</a>
+    </nav>
+  </aside>
 </header>
+
+<script>
+  const menuToggle = document.getElementById("menu-toggle");
+  const menuClose = document.getElementById("menu-close");
+  const menuBackdrop = document.getElementById("menu-backdrop");
+  const popoutMenu = document.getElementById("popout-menu");
+
+  function openMenu() {
+    popoutMenu?.classList.add("is-open");
+    menuBackdrop?.classList.add("is-open");
+    menuToggle?.setAttribute("aria-expanded", "true");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeMenu() {
+    popoutMenu?.classList.remove("is-open");
+    menuBackdrop?.classList.remove("is-open");
+    menuToggle?.setAttribute("aria-expanded", "false");
+    document.body.style.overflow = "";
+  }
+
+  menuToggle?.addEventListener("click", openMenu);
+  menuClose?.addEventListener("click", closeMenu);
+  menuBackdrop?.addEventListener("click", closeMenu);
+</script>
+
+
+  <!-- <div class="header-ad-space">
+    <div class="ad-placeholder">
+      <HeaderAdUnit />
+    </div>
+  </div> -->

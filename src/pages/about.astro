@@ -1,0 +1,55 @@
+---
+import Layout from "../layouts/Layout.astro";
+import "../styles/about.css";
+---
+
+<Layout title="Prodbytes - Free assets for your next project.">
+  <!-- Top Section: Text + Single Featured Photo -->
+  <section class="about-hero-section">
+    <div class="about-content">
+      <h2 class="hero-title">
+        <span class="hero-title-highlight">Hey!</span> Thanks for stopping by.
+      </h2>
+
+      <div class="site-header">
+        <p>
+          These are some designs and assets that never saw the light of day, so
+          I figured why not throw them on the internet for you all to use
+          instead of rotting away in a pile of hard drives. I'll be updating the
+          site weekly with new designs (and eventually motion graphics), so make
+          sure to check back often. <span class="site-header-emphasis"
+            ><br/><br/>Everything is ai-free and created by me in Blender, Figma, or
+            Adobe.</span
+          > I hope that these can be of use to you in some way, shape, or form. If
+          you do end up using something, I'd love to see it! Hit me up here and share
+          your work! <br/><br/><i>All the best,<br/>Tim</i>
+        </p>
+      </div>
+    </div>
+
+    <div class="featured-photo">
+      <img src="/about-photo.jpg" alt="Tim working at his desk" loading="lazy" />
+    </div>
+  </section>
+
+  <!-- Bottom Section: 3-Column Behind The Scenes -->
+  <section class="behind-the-scenes">
+    <h2 class="section-title">A peek into my office.</h2>
+    <div class="bts-grid">
+      <figure class="bts-card">
+        <img src="/photo1.jpg" alt="Tim at work 1" loading="lazy" />
+        <figcaption>Where the magic happens.</figcaption>
+      </figure>
+
+      <figure class="bts-card">
+        <img src="/photo2.jpg" alt="Tim at work 2" loading="lazy" />
+        <figcaption>Spinning wax keeps the creative flowing.</figcaption>
+      </figure>
+
+      <figure class="bts-card">
+        <img src="/photo3.jpg" alt="Tim at work 3" loading="lazy" />
+        <figcaption>Jackie Hughes. Front and center.</figcaption>
+      </figure>
+    </div>
+  </section>
+</Layout>
