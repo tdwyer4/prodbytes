@@ -28,6 +28,7 @@
   display: flex;
   flex-direction: column;
   gap: 18px;
+  padding: 0 1.5rem 1.5rem;
 }
 
 .hero-title {
@@ -37,7 +38,7 @@
   font-weight: 300;
   letter-spacing: -0.03em;
   line-height: 1.05;
-  width: 60%;
+  width: 50%;
 }
 
 .hero-title-highlight {
@@ -130,13 +131,17 @@
 }
 
 .card:hover img {
-  filter: brightness(0.90);
+  filter: brightness(0.9);
 }
 
 .card-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 20%, rgba(0, 0, 0, 0.85) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0) 20%,
+    rgba(0, 0, 0, 0.85) 100%
+  );
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -192,7 +197,9 @@
   color: #111111;
   border-radius: 6px;
   flex-shrink: 0;
-  transition: background-color 0.15s ease, color 0.15s ease;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
 }
 
 .card-download-btn:hover {
@@ -321,6 +328,10 @@
   /* Make overlays visible on touch screens where hover doesn't exist */
   .card-overlay {
     opacity: 1;
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0.85) 100%);
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0) 30%,
+      rgba(0, 0, 0, 0.85) 100%
+    );
   }
 }
