@@ -883,5 +883,50 @@
     "style": "",
     "dominantColor": "",
     "license": ""
+  },
+  {
+    "slug": "wirewaves-01",
+    "category": "backgrounds",
+    "originalFilename": "WireWaves_01.png",
+    "width": 3840,
+    "height": 2160,
+    "orientation": "landscape",
+    "thumbPath": "backgrounds/wirewaves-01/thumb.webp",
+    "previewPath": "backgrounds/wirewaves-01/preview.webp",
+    "fullPath": "backgrounds/wirewaves-01/full.jpg",
+    "title": "",
+    "style": "",
+    "dominantColor": "",
+    "license": ""
+  },
+  {
+    "slug": "wirewaves-02",
+    "category": "backgrounds",
+    "originalFilename": "WireWaves_02.png",
+    "width": 3840,
+    "height": 2160,
+    "orientation": "landscape",
+    "thumbPath": "backgrounds/wirewaves-02/thumb.webp",
+    "previewPath": "backgrounds/wirewaves-02/preview.webp",
+    "fullPath": "backgrounds/wirewaves-02/full.jpg",
+    "title": "",
+    "style": "",
+    "dominantColor": "",
+    "license": ""
+  },
+  {
+    "slug": "wirewaves-03",
+    "category": "backgrounds",
+    "originalFilename": "WireWaves_03.png",
+    "width": 3840,
+    "height": 2160,
+    "orientation": "landscape",
+    "thumbPath": "backgrounds/wirewaves-03/thumb.webp",
+    "previewPath": "backgrounds/wirewaves-03/preview.webp",
+    "fullPath": "backgrounds/wirewaves-03/full.jpg",
+    "title": "",
+    "style": "",
+    "dominantColor": "",
+    "license": ""
   }
 ]
