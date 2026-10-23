@@ -988,5 +988,50 @@
     "style": "",
     "dominantColor": "",
     "license": ""
+  },
+  {
+    "slug": "geobricks-01",
+    "category": "geometric",
+    "originalFilename": "GeoBricks_01.png",
+    "width": 3840,
+    "height": 2160,
+    "orientation": "landscape",
+    "thumbPath": "geometric/geobricks-01/thumb.webp",
+    "previewPath": "geometric/geobricks-01/preview.webp",
+    "fullPath": "geometric/geobricks-01/full.jpg",
+    "title": "",
+    "style": "",
+    "dominantColor": "",
+    "license": ""
+  },
+  {
+    "slug": "geobricks-02",
+    "category": "geometric",
+    "originalFilename": "GeoBricks_02.png",
+    "width": 3840,
+    "height": 2160,
+    "orientation": "landscape",
+    "thumbPath": "geometric/geobricks-02/thumb.webp",
+    "previewPath": "geometric/geobricks-02/preview.webp",
+    "fullPath": "geometric/geobricks-02/full.jpg",
+    "title": "",
+    "style": "",
+    "dominantColor": "",
+    "license": ""
+  },
+  {
+    "slug": "geobricks-03",
+    "category": "geometric",
+    "originalFilename": "GeoBricks_03.png",
+    "width": 3840,
+    "height": 2160,
+    "orientation": "landscape",
+    "thumbPath": "geometric/geobricks-03/thumb.webp",
+    "previewPath": "geometric/geobricks-03/preview.webp",
+    "fullPath": "geometric/geobricks-03/full.jpg",
+    "title": "",
+    "style": "",
+    "dominantColor": "",
+    "license": ""
   }
 ]
