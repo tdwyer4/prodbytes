@@ -1033,5 +1033,50 @@
     "style": "",
     "dominantColor": "",
     "license": ""
+  },
+  {
+    "slug": "flowaves-01",
+    "category": "abstract",
+    "originalFilename": "Flowaves_01.png",
+    "width": 2160,
+    "height": 2700,
+    "orientation": "portrait",
+    "thumbPath": "abstract/flowaves-01/thumb.webp",
+    "previewPath": "abstract/flowaves-01/preview.webp",
+    "fullPath": "abstract/flowaves-01/full.jpg",
+    "title": "",
+    "style": "",
+    "dominantColor": "",
+    "license": ""
+  },
+  {
+    "slug": "flowaves-02",
+    "category": "abstract",
+    "originalFilename": "Flowaves_02.png",
+    "width": 2160,
+    "height": 2700,
+    "orientation": "portrait",
+    "thumbPath": "abstract/flowaves-02/thumb.webp",
+    "previewPath": "abstract/flowaves-02/preview.webp",
+    "fullPath": "abstract/flowaves-02/full.jpg",
+    "title": "",
+    "style": "",
+    "dominantColor": "",
+    "license": ""
+  },
+  {
+    "slug": "flowaves-03",
+    "category": "abstract",
+    "originalFilename": "Flowaves_03.png",
+    "width": 2160,
+    "height": 2700,
+    "orientation": "portrait",
+    "thumbPath": "abstract/flowaves-03/thumb.webp",
+    "previewPath": "abstract/flowaves-03/preview.webp",
+    "fullPath": "abstract/flowaves-03/full.jpg",
+    "title": "",
+    "style": "",
+    "dominantColor": "",
+    "license": ""
   }
 ]
