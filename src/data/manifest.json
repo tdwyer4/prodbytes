@@ -1078,5 +1078,50 @@
     "style": "",
     "dominantColor": "",
     "license": ""
+  },
+  {
+    "slug": "monoliths-01",
+    "category": "minimal",
+    "originalFilename": "Monoliths_01.png",
+    "width": 2160,
+    "height": 3840,
+    "orientation": "portrait",
+    "thumbPath": "minimal/monoliths-01/thumb.webp",
+    "previewPath": "minimal/monoliths-01/preview.webp",
+    "fullPath": "minimal/monoliths-01/full.jpg",
+    "title": "",
+    "style": "",
+    "dominantColor": "",
+    "license": ""
+  },
+  {
+    "slug": "monoliths-02",
+    "category": "minimal",
+    "originalFilename": "Monoliths_02.png",
+    "width": 2160,
+    "height": 3840,
+    "orientation": "portrait",
+    "thumbPath": "minimal/monoliths-02/thumb.webp",
+    "previewPath": "minimal/monoliths-02/preview.webp",
+    "fullPath": "minimal/monoliths-02/full.jpg",
+    "title": "",
+    "style": "",
+    "dominantColor": "",
+    "license": ""
+  },
+  {
+    "slug": "monoliths-03",
+    "category": "minimal",
+    "originalFilename": "Monoliths_03.png",
+    "width": 2160,
+    "height": 3840,
+    "orientation": "portrait",
+    "thumbPath": "minimal/monoliths-03/thumb.webp",
+    "previewPath": "minimal/monoliths-03/preview.webp",
+    "fullPath": "minimal/monoliths-03/full.jpg",
+    "title": "",
+    "style": "",
+    "dominantColor": "",
+    "license": ""
   }
 ]
